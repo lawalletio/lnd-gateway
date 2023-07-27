@@ -23,6 +23,20 @@ const connect = async (lastIndex: number) => {
   lndService.addListeners();
 };
 
-void (async () => {
-  void connect(await getLastIndex(WEBHOOK_ENDPOINT));
+const fetchLastIndex = async () => {
+  try {
+    console.info("Fetching...");
+    const lastIndex = await getLastIndex(WEBHOOK_ENDPOINT);
+    void connect(lastIndex);
+  } catch (e) {
+    console.info("Error fetching last index...");
+    console.info("Retrying in 5 seconds ...");
+    setTimeout(() => {
+      void fetchLastIndex();
+    }, 5000);
+  }
+};
+
+(() => {
+  void fetchLastIndex();
 })();
