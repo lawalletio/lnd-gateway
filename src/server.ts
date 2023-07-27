@@ -4,6 +4,8 @@ import onPayment from "./events/payment.js";
 import { getLastIndex } from "./lib/utils.js";
 import { LndService } from "./services/lnd.js";
 
+import "./services/express.js";
+
 const { WEBHOOK_ENDPOINT, LND_GRPC_HOST, LND_DIR } = process.env;
 
 const connect = async (lastIndex: number) => {
